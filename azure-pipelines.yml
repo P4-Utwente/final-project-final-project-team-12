@@ -15,7 +15,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  vmImageName: 'windows-latest'
+  poolName: 'Default'
 
 stages:
 - stage: Build
@@ -25,8 +25,7 @@ stages:
   - job: Build
     displayName: Build
 
-    pool:
-      vmImage: $(vmImageName)
+    pool: $(poolName)
 
     steps:
     - task: DotNetCoreCLI@2

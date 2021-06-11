@@ -4,31 +4,33 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-- main
-
-pool:
-  vmImage: 'windows-latest'
-
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - azure-pipelines.yml
+    
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  poolName: 'Default'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+- stage: Build
+  displayName: Build stage
+  
+  jobs:
+  - job: Build
+    displayName: Build
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+    pool: $(poolName)
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/BlazorConnectFour.csproj'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+     #do unit tests here 

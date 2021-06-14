@@ -37,10 +37,11 @@ stages:
     - task: SonarQubePrepare@4
       inputs:
         SonarQube: 'Connect to sonarqube'
-        scannerMode: 'MSBuild'
-        projectKey: 'sonar_project'
+        scannerMode: 'CLI'
+        configMode: 'file'
+        
+    - task: SonarQubeAnalyze@4
+
     - task: SonarQubePublish@4
       inputs:
         pollingTimeoutSec: '300'
-        projectName: 'Sonar connection'
-        #do unit tests here 

@@ -38,7 +38,12 @@ stages:
         cliProjectKey: 'sonarqube_project'
         cliProjectName: 'Sonarqube_connection'
         cliSources: '.'
-        
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/BlazorConnectFour.csproj'
+
     # Run Code Analysis task
     - task: SonarQubeAnalyze@4
 
@@ -46,10 +51,5 @@ stages:
     - task: SonarQubePublish@4
       inputs:
         pollingTimeoutSec: '300'
-
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'build'
-        projects: '**/BlazorConnectFour.csproj'
-
+        
         # Put Unit tests here

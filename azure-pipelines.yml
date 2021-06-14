@@ -16,6 +16,7 @@ variables:
   buildConfiguration: 'Release'
   poolName: 'Default'
 
+
 stages:
 - stage: Build
   displayName: Build stage
@@ -24,7 +25,9 @@ stages:
   - job: Build
     displayName: Build
 
-    pool: $(poolName)
+    #pool: $(poolName)
+    pool: 
+      vmImage: 'windows-latest'
 
     steps:
     

@@ -1,4 +1,13 @@
 # ASP.NET
+- task: SonarQubePrepare@4
+  inputs:
+    SonarQube: 'Connect to sonarqube'
+    scannerMode: 'MSBuild'
+    projectKey: 'sonar_project'
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
+    projectName: 'Sonar connection'
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4

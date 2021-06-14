@@ -43,7 +43,8 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
-        #projects: '**/BlazorConnectFour.BlazorConnectFour.csproj'
+        projects: '**/BlazorConnectFour.BlazorConnectFour.csproj'
+        modifyOutputPath: true
 
     # Run Code Analysis task
     - task: SonarQubeAnalyze@4

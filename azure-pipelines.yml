@@ -25,9 +25,9 @@ stages:
   - job: Build
     displayName: Build
 
-    #pool: $(poolName)
-    pool: 
-      vmImage: 'windows-latest'
+    pool: $(poolName)
+    #pool: 
+    #  vmImage: 'windows-latest'
 
     steps:
     

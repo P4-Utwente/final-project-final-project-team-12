@@ -27,10 +27,7 @@ stages:
     pool: $(poolName)
 
     steps:
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'build'
-        projects: '**/BlazorConnectFour.csproj'
+    
 
     # Prepare Analysys Configuration task
     - task: SonarQubePrepare@4
@@ -49,3 +46,10 @@ stages:
     - task: SonarQubePublish@4
       inputs:
         pollingTimeoutSec: '300'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/BlazorConnectFour.csproj'
+
+        # Put Unit tests here

@@ -32,9 +32,10 @@ stages:
     # Prepare Analysys Configuration task
     - task: SonarQubePrepare@4
       inputs:
-        SonarQube: 'Connect to sonarqube'
+        SonarQube: 'connect_to_sonarqube'
         scannerMode: 'MSBuild'
         projectKey: 'unique_project_key'
+        projectName: 'sonarqube_project'
 
     - task: DotNetCoreCLI@2
       inputs:

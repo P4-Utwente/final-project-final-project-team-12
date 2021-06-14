@@ -33,11 +33,8 @@ stages:
     - task: SonarQubePrepare@4
       inputs:
         SonarQube: 'Connect to sonarqube'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: 'sonarqube_project'
-        cliProjectName: 'Sonarqube_connection'
-        cliSources: '.'
+        scannerMode: 'MSBuild'
+        projectKey: 'unique_project_key'
 
     - task: DotNetCoreCLI@2
       inputs:

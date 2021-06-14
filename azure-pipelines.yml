@@ -34,14 +34,20 @@ stages:
         command: 'build'
         projects: '**/BlazorConnectFour.csproj'
 
+    # Prepare Analysys Configuration task
     - task: SonarQubePrepare@4
       inputs:
         SonarQube: 'Connect to sonarqube'
         scannerMode: 'CLI'
-        configMode: 'file'
+        configMode: 'manual'
+        cliProjectKey: 'sonarqube_project'
+        cliProjectName: 'Sonarqube_connection'
+        cliSources: '.'
         
+    # Run Code Analysis task
     - task: SonarQubeAnalyze@4
 
+    # Publish Quality Gate Result task
     - task: SonarQubePublish@4
       inputs:
         pollingTimeoutSec: '300'

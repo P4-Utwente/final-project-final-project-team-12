@@ -40,6 +40,10 @@ stages:
         projectKey: 'unique_project_key'
         projectName: 'sonarqube_project'
 
+    - powershell: |
+        $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
+        Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'

@@ -50,11 +50,11 @@ stages:
         projects: '**/BlazorConnectFour.csproj'
 
     # Run Code Analysis task
-  #  - task: SonarQubeAnalyze@4
+    - task: SonarQubeAnalyze@4
 
     # Publish Quality Gate Result task
-    - task: SonarQubePublish@4
-      inputs:
-        pollingTimeoutSec: '300'
+  #  - task: SonarQubePublish@4
+   #   inputs:
+    #    pollingTimeoutSec: '300'
         
         # Put Unit tests here

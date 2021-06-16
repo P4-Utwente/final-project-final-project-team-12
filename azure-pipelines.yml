@@ -40,18 +40,21 @@ stages:
         projectKey: 'unique_project_key'
         projectName: 'sonarqube_project'
 
+    - powershell: |
+        $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
+        Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
         projects: '**/BlazorConnectFour.csproj'
-        modifyOutputPath: true
 
     # Run Code Analysis task
     - task: SonarQubeAnalyze@4
 
     # Publish Quality Gate Result task
-    - task: SonarQubePublish@4
-      inputs:
-        pollingTimeoutSec: '300'
+  #  - task: SonarQubePublish@4
+   #   inputs:
+    #    pollingTimeoutSec: '300'
         
         # Put Unit tests here

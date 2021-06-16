@@ -44,7 +44,6 @@ stages:
       inputs:
         command: 'build'
         projects: '**/BlazorConnectFour.csproj'
-        modifyOutputPath: true
 
     # Run Code Analysis task
     - task: SonarQubeAnalyze@4

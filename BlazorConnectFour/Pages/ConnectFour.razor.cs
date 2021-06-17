@@ -132,7 +132,7 @@ namespace BlazorConnectFour.Pages
             if (inARow >= 4)
             {
                 winningMoves.Add($"{i},{j}");
-                Console.WriteLine(currentPiece.Color);
+                //Console.WriteLine(currentPiece.Color);
                 return new WinningPlay()
                 {
                     WinningMoves = winningMoves,

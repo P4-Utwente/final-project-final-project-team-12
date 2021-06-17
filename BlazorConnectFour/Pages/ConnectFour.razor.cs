@@ -13,6 +13,10 @@ namespace BlazorConnectFour.Pages
         PieceColor currentTurn = PieceColor.Red;
         WinningPlay winningPlay;
 
+        public ref GameBoard gameBoard()
+        {
+            return  ref board;
+        }
         private void PieceClicked(int x, int y)
         {
             if (winningPlay != null) { return; }
@@ -22,11 +26,11 @@ namespace BlazorConnectFour.Pages
             //The piece must "fall" to the lowest unoccupied space in the clicked column
             if (clickedSpace.Color == PieceColor.Blank)
             {
-                while (y < 5)
+                while (x < 5)
                 {
-                    GamePiece nextSpace = board.Board[x, y + 1];
+                    GamePiece nextSpace = board.Board[x + 1, y];
 
-                    y = y + 1;
+                    x = x + 1;
                     if (nextSpace.Color == PieceColor.Blank)
                     {
                         clickedSpace = nextSpace;
@@ -55,13 +59,13 @@ namespace BlazorConnectFour.Pages
             }
         }
 
-        private WinningPlay GetWinner()
+        public WinningPlay GetWinner()
         {
             WinningPlay winningPlay = null;
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 6; i++)
             {
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < 7; j++)
                 {
                     winningPlay = EvaluatePieceForWinner(i, j, EvaluationDirection.Up);
                     if (winningPlay != null) { return winningPlay; }
@@ -80,10 +84,10 @@ namespace BlazorConnectFour.Pages
             return winningPlay;
 
         }
-        private WinningPlay EvaluatePieceForWinner(int i, int j, EvaluationDirection dir)
+        public WinningPlay EvaluatePieceForWinner(int i, int j, EvaluationDirection dir)
         {
-            GamePiece currentPiece = board.Board[i, j];
-            if (currentPiece.Color == PieceColor.Blank)
+            ref GamePiece currentPiece = ref board.Board[i, j];
+            if (currentPiece.Color == PieceColor.Blank)              
             {
                 return null;
             }
@@ -93,27 +97,27 @@ namespace BlazorConnectFour.Pages
             int jNext = j;
 
             var winningMoves = new List<string>();
-
+            //Console.WriteLine(inARow);
             while (inARow < 4)
             {
                 switch (dir)
                 {
                     case EvaluationDirection.Up:
-                        jNext = jNext - 1;
+                        iNext = iNext - 1;
                         break;
                     case EvaluationDirection.UpRight:
-                        iNext = iNext + 1;
-                        jNext = jNext - 1;
+                        jNext = jNext + 1;
+                        iNext = iNext - 1;
                         break;
                     case EvaluationDirection.Right:
-                        iNext = iNext + 1;
-                        break;
-                    case EvaluationDirection.DownRight:
-                        iNext = iNext + 1;
                         jNext = jNext + 1;
                         break;
+                    case EvaluationDirection.DownRight:
+                        jNext = jNext + 1;
+                        iNext = iNext + 1;
+                        break;
                 }
-                if (iNext < 0 || iNext >= 7 || jNext < 0 || jNext >= 6) { break; }
+                if (iNext < 0 || iNext >= 6 || jNext < 0 || jNext >= 7) { break; }
                 if (board.Board[iNext, jNext].Color == currentPiece.Color)
                 {
                     winningMoves.Add($"{iNext},{jNext}");
@@ -128,7 +132,7 @@ namespace BlazorConnectFour.Pages
             if (inARow >= 4)
             {
                 winningMoves.Add($"{i},{j}");
-
+                Console.WriteLine(currentPiece.Color);
                 return new WinningPlay()
                 {
                     WinningMoves = winningMoves,

@@ -12,12 +12,12 @@ namespace BlazorConnectFour.Data
 
         public GameBoard()
         {
-            Board = new GamePiece[7, 6];
+            Board = new GamePiece[6, 7];
            
             //Populate the Board with blank pieces
-            for(int i = 0; i <= 6; i++)
+            for(int i = 0; i <= 5; i++)
             {
-                for(int j = 0; j <= 5; j++)
+                for(int j = 0; j <= 6; j++)
                 {
                     Board[i, j] = new GamePiece(PieceColor.Blank);
                 }

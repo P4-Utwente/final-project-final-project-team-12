@@ -75,7 +75,7 @@ namespace UITests
                 }
             }
         }
-
+/*
         [Test]
         public void ClickOnOccupiedCellTest()
         {
@@ -90,7 +90,7 @@ namespace UITests
 
             //clicked on occupied cell, so it should remain yellows turn
             Assert.IsTrue(gamePage.Find("h2").InnerHtml.ToLower().Contains("yellow"));
-        }
+        }*/
 
         [Test]
         public void RedCanWinTest()

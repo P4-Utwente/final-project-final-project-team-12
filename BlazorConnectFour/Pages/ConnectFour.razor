@@ -17,16 +17,16 @@ else
 <div class="column">
     @for (int i = 0; i < 6; i++)
     {
-        <div class="board">
-            @for (int j = 0; j < 7; j++)
-            {
-                int x = i;
-                int y = j;
-                <div class="gamepiece
-                         @board.Board[i,j].Color.ToString().ToLower()" @onclick="@(() => PieceClicked(x,y))"
-                     style="@(IsGamePieceAWinningPiece(winningPlay, i, j)? "opacity: 0.6" : "")"></div>
-            }
-        </div>
+    <div class="board">
+        @for (int j = 0; j < 7; j++)
+        {
+            int x = i;
+            int y = j;
+            <div class="gamepiece @board.Board[i,j].Color.ToString().ToLower()" @onclick="@(() => PieceClicked(x,y))"
+                 style="@(IsGamePieceAWinningPiece(winningPlay, i, j)? "opacity: 0.6" : "")">
+            </div>
+        }
+    </div>
     }
 </div>
 

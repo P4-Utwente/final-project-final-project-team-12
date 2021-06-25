@@ -1,9 +1,11 @@
+using AngleSharp.Dom;
 using BlazorConnectFour.Pages;
 using BlazorConnectFour.Shared;
 using Bunit;
 using Microsoft.JSInterop;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace UITests
@@ -31,8 +33,7 @@ namespace UITests
         {
             var navBar = testContext.RenderComponent<NavMenu>();
 
-            var navBarButtons = navBar.FindAll("a");
-            var ConnectFourButton = navBarButtons.FirstOrDefault(b => b.GetAttribute("href").Contains("ConnectFour"));
+            var ConnectFourButton = navBar.Find("a[href='connectfour']");
             Assert.IsNotNull(ConnectFourButton);
         }
 
@@ -41,42 +42,100 @@ namespace UITests
         {
             IRenderedComponent<ConnectFour> gamePage = testContext.RenderComponent<ConnectFour>();
 
+            IElement[,] cellMatrix = GetMatrix(gamePage);
 
-            //get two dimensional array
+            Assert.IsTrue(cellMatrix.GetLength(0) == 7);
+            Assert.IsTrue(cellMatrix.GetLength(1) == 6);
 
-            //check if the size is right
-
-            for (int x = 0; x < 10; x++)
+            for (int x = 0; x < cellMatrix.GetLength(0); x++)
             {
-                for (int y = 10; y > 0; y--)
+                for (int y = cellMatrix.GetLength(1) - 1; y > 5; y--)
                 {
-                    //click on cell
+                    cellMatrix[x, y].Click();
+
+                    IElement[,] updatedMatrix = GetMatrix(gamePage);
 
 
-                    //check if dish is in row
+                    var dish = updatedMatrix[x, y].ClassList[1];
 
-                    if(true) //this cell is empty
+                    //check if dish was inserted
+                    Assert.IsTrue(!dish.Equals("blank"));
+
+                    var currentPlayer = gamePage.Find("h2").InnerHtml.ToLower();
+                    if (dish.Equals("red"))
                     {
-                        //get current player
-
-                        //check if this cell is not current players color color
+                        Assert.IsTrue(currentPlayer.Contains("yellow"));
                     }
+                    else if(dish.Equals("yellow"))
+                    {
+                        Assert.IsTrue(currentPlayer.Contains("red"));
+                    }
+
+                    cellMatrix = updatedMatrix;
                 }
             }
         }
 
         [Test]
         public void ClickOnOccupiedCellTest()
-        { 
-        
+        {
+            IRenderedComponent<ConnectFour> gamePage = testContext.RenderComponent<ConnectFour>();
+
+            IElement[,] cellMatrix = GetMatrix(gamePage);
+
+            GetMatrix(gamePage)[0, cellMatrix.GetLength(1) - 1].Click();
+
+            //now it should be yellows turn
+            GetMatrix(gamePage)[0, cellMatrix.GetLength(1) - 1].Click();
+
+            //clicked on occupied cell, so it should remain yellows turn
+            Assert.IsTrue(gamePage.Find("h2").InnerHtml.ToLower().Contains("yellow"));
         }
 
         [Test]
-        public void CanPlayFullGame()
+        public void RedCanWinTest()
         {
-            //play game and win
-
             IRenderedComponent<ConnectFour> gamePage = testContext.RenderComponent<ConnectFour>();
+
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            Assert.IsTrue(gamePage.Find("h2").InnerHtml.ToLower().Contains("red wins"));
+        }
+
+        [Test]
+        public void YellowCanWinTest()
+        {
+            IRenderedComponent<ConnectFour> gamePage = testContext.RenderComponent<ConnectFour>();
+
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[3, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            Assert.IsTrue(gamePage.Find("h2").InnerHtml.ToLower().Contains("yellow wins"));
+        }
+
+        [Test]
+        public void CanPlayMutipleGamesTest()
+        {
+            IRenderedComponent<ConnectFour> gamePage = testContext.RenderComponent<ConnectFour>();
+
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            Assert.IsTrue(gamePage.Find("h2").InnerHtml.ToLower().Contains("red wins"));
 
             var GamePageButtons = gamePage.FindAll("button");
             var resetButton = GamePageButtons.FirstOrDefault(b => b.OuterHtml.Contains("Reset"));
@@ -84,35 +143,37 @@ namespace UITests
 
             resetButton.Click();
 
-            var RecheckedGamePageButtons = gamePage.FindAll("button");
-            var RecheckedResetButton = GamePageButtons.FirstOrDefault(b => b.OuterHtml.Contains("Reset"));
-            Assert.IsNull(RecheckedResetButton);
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[0, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            GetMatrix(gamePage)[3, 0].Click();
+            GetMatrix(gamePage)[1, 0].Click();
+            Assert.IsTrue(gamePage.Find("h2").InnerHtml.ToLower().Contains("yellow wins"));
         }
-
-        [Test]
-        public void CorrectWinnerIsDisplayed()
-        {
-            IRenderedComponent<ConnectFour> gamePage = testContext.RenderComponent<ConnectFour>();
-
-            PlayGame(gamePage, true);
-
-            PlayGame(gamePage, false);
-        }
-
-        
 
         //-----------------------------------
         // helper methods
         //-----------------------------------
-        
-        private void PlayGame(IRenderedComponent<ConnectFour> gamePage)
-        {
-            PlayGame(gamePage, true);
-        }
 
-        private void PlayGame(IRenderedComponent<ConnectFour> gamePage, bool playerOneWins)
-        {
 
+        private IElement[,] GetMatrix(IRenderedComponent<ConnectFour> gamePage)
+        {
+            var boards = gamePage.FindAll(".board");
+
+            IElement[,] cellMatrix = new IElement[boards[0].Children.Count(), boards.Count];
+
+            for(int y = 0; y < boards.Count; y++)
+            {
+                for (int x = 0; x < boards[y].Children.Count(); x++)
+                {
+                    cellMatrix[x, y] = boards[y].Children[x];
+                }
+            }
+
+            return cellMatrix;
         }
     }
 }

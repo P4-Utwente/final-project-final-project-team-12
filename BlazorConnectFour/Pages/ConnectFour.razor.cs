@@ -19,6 +19,8 @@ namespace BlazorConnectFour.Pages
         }
         private void PieceClicked(int x, int y)
         {
+            //board.Board[100, 100].Color = PieceColor.Blank;
+            
             if (winningPlay != null) { return; }
 
             GamePiece clickedSpace = board.Board[x, y];
@@ -37,7 +39,7 @@ namespace BlazorConnectFour.Pages
                     }
                 }
                 clickedSpace.Color = currentTurn;
-
+                StateHasChanged();
             }
 
             winningPlay = GetWinner();

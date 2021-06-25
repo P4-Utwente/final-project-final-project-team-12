@@ -80,7 +80,7 @@ namespace GameLogicTests
         public void Logic_Test_Red_Wins()
         {
 
-            path = @"D:/Studies/2B 2021/P4/Final Project/new git/GameLogicTests/Data/RedWinsVertical.csv";
+            path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"/Data/RedWinsVertical.csv";
             DataStoreMatrix(path);
 
             //ACT
@@ -98,7 +98,7 @@ namespace GameLogicTests
         {
             //ARRANGE           
 
-            path = @"D:/Studies/2B 2021/P4/Final Project/new git/GameLogicTests/Data/RedWinsVertical.csv";
+            path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"/Data/RedWinsVertical.csv";
             DataStoreMatrix(path);
 
 
@@ -115,7 +115,7 @@ namespace GameLogicTests
         public void Logic_Test_Yellow_Wins()
         {
 
-            path = @"D:/Studies/2B 2021/P4/Final Project/new git/GameLogicTests/Data/YellowWinsHorizontal.csv";
+            path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"/Data/YellowWinsHorizontal.csv";
             DataStoreMatrix(path);
 
 
@@ -132,7 +132,7 @@ namespace GameLogicTests
         public void Logic_Test_Horizontal_Four()
         {
 
-            path = @"D:/Studies/2B 2021/P4/Final Project/new git/GameLogicTests/Data/YellowWinsHorizontal.csv";
+            path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"/Data/YellowWinsHorizontal.csv";
             DataStoreMatrix(path);
 
 
@@ -149,7 +149,7 @@ namespace GameLogicTests
         public void Logic_Test_Diagonal_Four()
         {
 
-            path = @"D:/Studies/2B 2021/P4/Final Project/new git/GameLogicTests/Data/DiagonalWin.csv";
+            path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"/Data/DiagonalWin.csv";
             DataStoreMatrix(path);
 
 

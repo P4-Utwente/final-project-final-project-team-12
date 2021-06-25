@@ -32,7 +32,6 @@ namespace UITests
         public void CanReachGamePage()
         {
             var navBar = testContext.RenderComponent<NavMenu>();
-
             var ConnectFourButton = navBar.Find("a[href='connectfour']");
             Assert.IsNotNull(ConnectFourButton);
         }
@@ -55,7 +54,6 @@ namespace UITests
 
                     IElement[,] updatedMatrix = GetMatrix(gamePage);
 
-
                     var dish = updatedMatrix[x, y].ClassList[1];
 
                     //check if dish was inserted
@@ -75,7 +73,7 @@ namespace UITests
                 }
             }
         }
-/*
+
         [Test]
         public void ClickOnOccupiedCellTest()
         {
@@ -90,7 +88,7 @@ namespace UITests
 
             //clicked on occupied cell, so it should remain yellows turn
             Assert.IsTrue(gamePage.Find("h2").InnerHtml.ToLower().Contains("yellow"));
-        }*/
+        }
 
         [Test]
         public void RedCanWinTest()

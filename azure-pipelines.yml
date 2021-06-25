@@ -53,13 +53,13 @@ stages:
     - task: DotNetCoreCLI@2
       displayName: Run logic tests
       inputs:
-        command: 'build'
+        command: 'test'
         projects: '**/GameLogicTests.csproj'
         
     - task: DotNetCoreCLI@2
       displayName: Run ui tests
       inputs:
-        command: 'build'
+        command: 'test'
         projects: '**/UITests.csproj'
     # Run Code Analysis task
     - task: SonarQubeAnalyze@4

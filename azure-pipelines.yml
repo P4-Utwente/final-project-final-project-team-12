@@ -45,10 +45,22 @@ stages:
         Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
 
     - task: DotNetCoreCLI@2
+      displayName: Building the project
       inputs:
         command: 'build'
         projects: '**/BlazorConnectFour.csproj'
 
+    - task: DotNetCoreCLI@2
+      displayName: Run logic tests
+      inputs:
+        command: 'test'
+        projects: '**/GameLogicTests.csproj'
+        
+    - task: DotNetCoreCLI@2
+      displayName: Run ui tests
+      inputs:
+        command: 'test'
+        projects: '**/UITests.csproj'
     # Run Code Analysis task
     - task: SonarQubeAnalyze@4
 

@@ -1,4 +1,4 @@
-# Build and test ASP.NET projects.
+  # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
@@ -50,6 +50,17 @@ stages:
         command: 'build'
         projects: '**/BlazorConnectFour.csproj'
 
+
+    # Run Code Analysis task
+    - task: SonarQubeAnalyze@4
+
+    # Publish Quality Gate Result task
+  #  - task: SonarQubePublish@4
+   #   inputs:
+    #    pollingTimeoutSec: '300'
+        
+        # Put Unit tests here
+
     - task: DotNetCoreCLI@2
       displayName: Run logic tests
       inputs:
@@ -61,12 +72,3 @@ stages:
       inputs:
         command: 'test'
         projects: '**/UITests.csproj'
-    # Run Code Analysis task
-    - task: SonarQubeAnalyze@4
-
-    # Publish Quality Gate Result task
-  #  - task: SonarQubePublish@4
-   #   inputs:
-    #    pollingTimeoutSec: '300'
-        
-        # Put Unit tests here
